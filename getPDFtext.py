@@ -21,7 +21,7 @@ def downloadLastN(n)
     fp = webdriver.FirefoxProfile()
     fp.set_preference("browser.download.folderList", 2)
     fp.set_preference("browser.download.manager.showWhenStarting", True)
-    fp.set_preference("browser.download.dir", os.getcwd())
+    fp.set_preference("browser.download.dir", os.getcwd()+'/pdf_files/')
     fp.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/pdf")
     fp.set_preference("pdfjs.disabled", True)
     fp.update_preferences()
@@ -37,3 +37,15 @@ def downloadLastN(n)
         downloadlink = browser.find_element_by_partial_link_text(document)
         downloadlink.click()
         os.rename('ReterivePdf',document+'.pdf')
+
+
+
+if __name__=='__main__':
+    if len(sys.argv) < 2:
+        print 'Usage: python getPDFs.py <number-of-days-to-download>'
+    num = sys.argv[1]
+    if not num.isdigit():
+        print 'Usage: python getPDFs.py <number-of-days-to-download>'
+    if not os.path.exists('pdf_files'):
+        os.mkdir('pdf_files')
+    downloadLastN(int(num))
