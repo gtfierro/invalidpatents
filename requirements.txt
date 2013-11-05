@@ -1,2 +1,5 @@
 pyocr
 Wand
+PIL
+selenium
+rethinkdb
