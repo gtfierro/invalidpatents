@@ -41,4 +41,5 @@ def run():
                           'text': text}).run()
 
 if __name__=='__main__':
+    print 'Converting PDFs to JPG, running tesseract OCR, inserting documents into RethinkDB'
     run()
