@@ -28,7 +28,7 @@ def downloadLastN(n):
     documents = [doc if doc.isdigit() else '' for doc in names] 
     documents = filter(lambda x: x, documents)
     for document in documents:
-        browser.get('http://e-foia.uspto.gov/Foia/DispatchBPAIServlet?RetrieveRecent=30')
+        browser.get('http://e-foia.uspto.gov/Foia/DispatchBPAIServlet?RetrieveRecent='+str(n))
         downloadlink = browser.find_element_by_partial_link_text(document)
         downloadlink.click()
         spinWaitOnDownload(document)
