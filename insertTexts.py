@@ -4,6 +4,7 @@ import rethinkdb as r
 from pyocr import tesseract
 import wand.image
 from PIL import Image
+import slate
 
 r.connect().repl()
 db = r.db('invalid')
@@ -31,13 +32,22 @@ def getFileNames():
 def run():
     for filename in getFileNames():
         number = getNumberFromFilename(filename)
-        convertPDF(filename)
-        print filename
-        text = ''
-        for i, jpg in enumerate(glob.glob(filename+'-[0-9]*.jpg')):
-            text += getText(jpg)
+        doc = slate.PDF(open(filename))
+        if not all(map(lambda x: x == '\x0c', doc)):
+            print 'Using Slate for', filename
+            method = 'slate'
+            text = '\n'.join(doc)
+        else:
+            print 'Using Tesseract for', filename
+            method = 'tesseract'
+            convertPDF(filename)
+            text = ''
+            for i, jpg in enumerate(glob.glob(filename+'-[0-9]*.jpg')):
+                text += getText(jpg)
+                os.remove(jpg)
         table.insert({'filename': filename,
                       'number': number,
+                      'method': method,
                       'text': text}).run()
 
 if __name__=='__main__':
