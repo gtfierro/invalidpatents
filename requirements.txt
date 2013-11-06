@@ -3,3 +3,5 @@ Wand
 PIL
 selenium
 rethinkdb
+pdfminer
+-e git+git://github.com/gtfierro/slate.git#egg=slate
