@@ -33,12 +33,12 @@ def run():
         number = getNumberFromFilename(filename)
         convertPDF(filename)
         print filename
+        text = ''
         for i, jpg in enumerate(glob.glob(filename+'-[0-9]*.jpg')):
-            text = getText(jpg)
-            table.insert({'filename': filename,
-                          'sequence': i,
-                          'number': number,
-                          'text': text}).run()
+            text += getText(jpg)
+        table.insert({'filename': filename,
+                      'number': number,
+                      'text': text}).run()
 
 if __name__=='__main__':
     print 'Converting PDFs to JPG, running tesseract OCR, inserting documents into RethinkDB'
