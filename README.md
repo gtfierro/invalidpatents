@@ -8,9 +8,12 @@ decisions from the past N days by visting
 [http://e-foia.uspto.gov/Foia/DispatchBPAIServlet?RetrieveRecent=30](http://e-foia.uspto.gov/Foia/DispatchBPAIServlet?RetrieveRecent=30),
 and replacing the '30' in the URL with the number we want.
 
-Using Selenium we download the decision PDFs, run Tesseract OCR on the
+Using Selenium we download the decision PDFs, extract the text from the PDF,
 documents, and insert the full text into a RethinkDB database.
 
+We use Slate/PDFMiner to extract text from PDF documents that are only rendered
+text. Some PDF documents contain images, and the text is not easily
+extractable. For these, we use Tesseract as an OCR engine.
 
 ## Getting Set Up
 
